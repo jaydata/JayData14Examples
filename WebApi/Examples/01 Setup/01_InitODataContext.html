@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="/Scripts/jquery-2.1.1.js"></script>
+    <script src="/Scripts/odatajs-4.0.0-beta-01.js"></script>
+    <script src="/Scripts/jaydata/jaydata.js"></script>
+    <script src="/Scripts/jaydata/jaydataproviders/oDataProvider.js"></script>
+    <script src="helper.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+
+    <script class="example-code">
+        //run gets called from helper.js
+        $data.initService("/odata").then(function (productApi) {
+            productApi.Products.toArray().then(function (products) {
+                alert("Number of products in the database:" + products.length);
+            })
+        });
+    </script>
+</head>
+<body>
+<pre>
+        <code>
+        </code>
+</pre>
+    <h3>Results</h3>
+    <ul class="items">
+
+    </ul>
+</body>
+</html>

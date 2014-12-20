@@ -1,0 +1,19 @@
+﻿.example-info::before {
+    content: 'Description:';
+    display:block;
+}
+
+body {
+    background-color:white;
+}
+pre code {
+}
+.odata-syntax::before {
+    content: 'http://localhost:12345';
+    color:silver;
+}
+
+#results {
+    height:300px;
+    overflow:auto;
+}

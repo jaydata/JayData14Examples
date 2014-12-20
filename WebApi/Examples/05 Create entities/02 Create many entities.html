@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>List entity set</title>
+    <script src="/Scripts/jquery-2.1.1.js"></script>
+    <script src="/Scripts/odatajs-4.0.0-beta-01.js"></script>
+    <script src="/Scripts/jaydata/jaydata.js"></script>
+    <script src="/Scripts/jaydata/jaydataproviders/oDataProvider.js"></script>
+    <script src="../helper.js"></script>
+    <link href="../helper.css" rel="stylesheet" />
+    <link href="/Scripts/highlight.css" rel="stylesheet" />
+    <script src="/Scripts/highlight.js"></script>
+    <script src="../../Scripts/jaydata/jaydatamodules/NoBatch.min.js"></script>
+    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>-->
+
+</head>
+<body>
+    <div class="example-info">
+        List all items from an EntitySet
+    </div>
+
+    <div class="odata-syntax">/Products</div>
+
+    <script class="example-code">
+        //while olingo batch is fixed keep it RESTful
+        $data.defaults.disableBatch = true;
+        $data.initService("/odata", { DefaultNamespace: 'myns' })
+             .then(function (api) {
+                 var newCategories = [{ Name: 'C1' }, { Name: 'C2' }];
+                 api.Categories.addMany(newCategories);
+                 api.saveChanges()
+                    .then(function () {
+                        display.showJSON(newCategories);
+                    })
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/jquery-2.1.1.js"></script>
+    <script src="Scripts/odatajs-4.0.0-beta-01.js"></script>
+    <script src="Scripts/_.js"></script>
+    <script src="Scripts/jaydata/jaydata.js"></script>
+    <script src="Scripts/jaydata/jaydataproviders/oDataProvider.js"></script>
+
+    <script type="text/template" id="itemTemplate">
+        <li>
+            <a href="<%=ItemId%>" target="content"><%=Name%></a>
+        </li>
+    </script>
+    <script type="text/template" id="groupTemplate">
+        <ul>
+            <h3><%=name%></h3>
+            <% _.each(items, function(item) { %>
+                <%=itemTemplate(item)%> 
+            <% }) %>
+        </ul>
+    </script>
+    <script>
+        var itemTemplate = _.template($('#itemTemplate').text())
+        var groupTemplate = _.template($('#groupTemplate').text())
+        $data.initService("/examples").then(function (ctx) {
+
+            ctx.Items.toArray().then(function (items) {
+                var groups = _.groupBy(items, function (item) {
+                    return item.Parent;
+                });
+                groups = _.map(groups, function (items, key) {
+                    return { name: key, items: items }
+                });
+                
+                groups.forEach(function (group) {
+                    $('.group-list').append(groupTemplate(group));
+                });
+
+            });
+        });
+    </script>
+    <style>
+        .group-list {
+            width:300px;
+            float:left;
+        }
+        a {
+            display:block;
+            text-decoration:none;
+        }
+        .content {
+            float:left;
+            width:500px;
+        }
+
+        .content iframe {
+            width:800px;
+            height:800px;
+        }
+
+        body {
+            background-color:rgba(0, 0, 0, 0.8)
+        }
+        .group-list, .group-list a, body {
+            font-family:'Segoe UI';
+            color:white;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>JayData 1.4 + OData 4.0 feature 101</h1>
+    <div class="group-list">
+       
+    </div>
+    <div class="content">
+        <iframe name="content" 
+                style="border:0px solid black;overflow:hidden"
+                src="Examples/02_SimpleReadAndQuery/01_ListEntities.html"></iframe>
+    </div>
+</body>
+</html>
