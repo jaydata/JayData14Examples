@@ -1,14 +1,34 @@
-﻿var helper = {};
+﻿var inits = $data.initService;
+$data.initService = function () {
+    var args = arguments;
+    return $.Deferred(function (defer) {
+        $('.odata-syntax').empty();
+        inits.apply(inits, args)
+            .then(function (api, factory, apiType) {
+                api.prepareRequest = function (args) {
+                    $('.odata-syntax').append("<div>" + args[0].requestUri + "</div>");
+                }
+                defer.resolve(api, factory, apiType);
+            })
+            .fail(defer.reject);
+    }).promise();
+        
+}
+var helper = {};
 
 helper.showJSON = function (data, msg) {
-    var results = $('#results').length ? $('#results') : $("<div id='results'></div>").appendTo(document.body);
+    var results = $('#results').length ? $('#results') :
+        $("<h4 class='results'>Results</h4>").appendTo(document.body) &&
+        $("<div id='results'></div>").appendTo(document.body);
     if (msg) {
         helper.log(msg);
     }
     $(results).append("<pre>" + JSON.stringify(data, undefined, 2) + "</pre>");
 }
 helper.log = function (msg) {
-    var results = $('#results').length ? $('#results') : $("<div id='results'></div>").appendTo(document.body);
+    var results = $('#results').length ? $('#results') :
+        $("<h4 class='results'>Results</h4>").appendTo(document.body) &&
+        $("<div id='results'></div>").appendTo(document.body);
     $(results).append("<h3>" + msg + "</h3>");
 }
 
@@ -28,7 +48,9 @@ $(function () {
                 .html(document.location.href);
 
     var code = $('.example-code').html();
-    var precode = $('pre code').length ? $('pre code') : $(document.body).append("<pre><code></code></pre>").find("code");
+    var precode = $('pre code').length ? $('pre code') : $(document.body)
+                                                                .append("<h4>Code</h4>")
+                                                                .append("<pre><code></code></pre>").find("code");
 
     precode.html(code);
 

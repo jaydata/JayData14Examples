@@ -1,19 +1,35 @@
-﻿.example-info::before {
-    content: 'Description:';
-    display:block;
+﻿.example-info {
+    display:none;
 }
 
 body {
+    font-family:'Segoe UI';
+    font-size:120%;
     background-color:white;
 }
 pre code {
 }
+.odata-syntax {
+    font-size:80%;
+}
 .odata-syntax::before {
-    content: 'http://localhost:12345';
-    color:silver;
+    content: 'OData request';
+    font-weight:bold;
 }
 
 #results {
     height:300px;
     overflow:auto;
+}
+
+.pageurl {
+    font-size:70%;
+}
+
+h1 {
+    margin: 5px;
+}
+
+#results pre {
+    font-size: 80%;
 }

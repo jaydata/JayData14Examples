@@ -14,12 +14,14 @@
         </li>
     </script>
     <script type="text/template" id="groupTemplate">
-        <ul>
+        <div class="group">
             <h3><%=name%></h3>
-            <% _.each(items, function(item) { %>
-                <%=itemTemplate(item)%> 
-            <% }) %>
-        </ul>
+            <ul class="collapsed">
+                <% _.each(items, function(item) { %>
+                <%=itemTemplate(item)%>
+                <% }) %>
+            </ul>
+        </div>
     </script>
     <script>
         var itemTemplate = _.template($('#itemTemplate').text())
@@ -37,8 +39,41 @@
                 groups.forEach(function (group) {
                     $('.group-list').append(groupTemplate(group));
                 });
-
+                window.setTimeout(function () {
+                    var g = $('.group').first();
+                    g.addClass("selected-group");
+                    g.one("transitionend", function () {
+                        g.find("li").first().addClass("selected");
+                        var href = g.find("li").first().find("a").attr("href");
+                        document.getElementById("contentFrame").src = href;
+                    });
+                })
             });
+        });
+        $(function () {
+            $(document).on("click", ".group-list li", function () {
+                $(".selected").removeClass("selected");
+                $(this).addClass("selected");
+            })
+
+            var processing;
+            $(document).on("mouseenter", ".group", function () {
+                var self = this;
+                var prevuls = $(".group.selected-group").find("ul");
+                $(".selected-group").removeClass("selected-group");   
+                $(this).addClass("selected-group");
+                //if (prevuls.length) {
+                //    processing = false;
+                //    $(self).find("ul").css({ height: 200 });
+                //    prevuls.css({ height: 0 });
+                //} else {
+                //    processing = false;
+                //    $(this).find("ul").css({ height: $(this).find("ul")[0].scrollHeight });
+                //};
+            })
+            //$(document).on("mouseleave", ".group", function () {
+            //    $(this).find("ul").css({ height: 0 });
+            //})
         });
     </script>
     <style>
@@ -63,22 +98,70 @@
         body {
             background-color:rgba(0, 0, 0, 0.8)
         }
-        .group-list, .group-list a, body {
+        body {
+            color:white;
+            font-family:'Segoe UI';
+        }
+        .group-list, .group-list a {
             font-family:'Segoe UI';
             color:white;
+        }
+
+        .group-list li {
+            line-height:25px;
+            height:25px;
+        }
+        .group-list li.selected, li.selected a {
+            background-color:white;
+            color:black;
+            line-height:30px;
+            font-size:100%;
+            height:30px;
+        }
+        .group {
+            position:relative;
+        }
+        .group ul {
+            height:auto;
+            overflow:visible;
+            transition: all 0.8s;
+            height: 0;
+            overflow:hidden;
+            padding-left:0;
+        }
+
+        .group ul li {
+            list-style:none;
+        }
+        .group.selected-group ul {
+            height:200px;
+        }
+        /*.group ul.collapsed  {
+            height:0;
+            overflow:hidden;
+        }*/
+        ul li:not(.selected):hover {
+            background-color:darkgray;
+            height:25px;
+            line-height:25px;
+        }
+        .container {
+            width:1000px;
+            margin: 0 auto;
         }
     </style>
 
 </head>
 <body>
-    <h1>JayData 1.4 + OData 4.0 feature 101</h1>
-    <div class="group-list">
-       
-    </div>
-    <div class="content">
-        <iframe name="content" 
-                style="border:0px solid black;overflow:hidden"
-                src="Examples/02_SimpleReadAndQuery/01_ListEntities.html"></iframe>
+    <div class="container">
+        <h1>JayData 1.4 + OData 4.0 feature 101</h1>
+        <div class="group-list">
+
+        </div>
+        <div class="content">
+            <iframe name="content" id="contentFrame"
+                    style="background-color:white; border:0px solid black;overflow:hidden"></iframe>
+        </div>
     </div>
 </body>
 </html>
