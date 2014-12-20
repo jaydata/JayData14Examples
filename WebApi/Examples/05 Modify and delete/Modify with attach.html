@@ -23,17 +23,18 @@
 
     <script class="example-code">
         $data.initService("/odata").then(function (api) {
-            api.Products
-               .select(function (product) {
-                   return {
-                       Name: product.Name,
-                       CategoryName: product.Category.Name
-                   }
-               })
-               .toArray()
-               .then(function (products) {
-                 helper.showJSON(products)
-            });
+            
+
+            api.Products.find(1).then(modifyProduct);
+
+            function modifyProduct(product) {
+                api.Products.attach(product);
+                product.Name = product.Name + "*";
+                api.saveChanges().then(function () {
+                    display.showJSON(product);
+                });
+            }
+
         });
     </script>
 

@@ -135,7 +135,8 @@
     <Content Include="Examples\04 Create entities\01 Create - Item store api 1.html" />
     <Content Include="Examples\04 Create entities\01 Create - Entity classes api 2.html" />
     <Content Include="Examples\04 Create entities\01 Create - Entity classes api 1.html" />
-    <Content Include="Examples\05 Include and shaping %28map%29\02 Shape results.html" />
+    <Content Include="Examples\05 Modify and delete\Modify with item store API.html" />
+    <Content Include="Examples\05 Modify and delete\Modify with attach.html" />
     <Content Include="Examples\03 Complex queries\01 Query on relation.html" />
     <Content Include="Examples\helper.css" />
     <Content Include="Examples\01 Simple read and Query\01 List entities.html" />
@@ -229,6 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Examples\06 Invoke operations\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -48,5 +48,26 @@ namespace ProductApi
             ProductDb.Instance.Products.Add(product);
             return Created(product);
         }
+
+        [AcceptVerbs("PATCH", "MERGE")]
+        public IHttpActionResult Patch([FromODataUri] int key, Delta<Product> patch)
+        {
+            Validate(patch.GetEntity());
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var product = ProductDb.Instance.Products.Find(p => p.Id == key);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            patch.Patch(product);
+
+            return Updated(product);
+        }
     }
 }
